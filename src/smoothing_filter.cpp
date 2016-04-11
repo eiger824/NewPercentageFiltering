@@ -32,11 +32,13 @@ bool SmoothingFilter::getHoldParam() {
 }
 
 unsigned int SmoothingFilter::smooth(unsigned int current_sample) {
-  unsigned int tuned_sample = current_sample;
-  if (m_first_sample)
+  unsigned int tuned_sample;
+  if (m_first_sample) {
     m_initial_sample = current_sample;
+    m_first_sample = false;
+  }
 
-  m_first_sample = false;
+  tuned_sample = m_initial_sample;
   if (current_sample == m_initial_sample && m_hold == false) {
     ++m_current_cnt;
   } else if (current_sample < m_initial_sample) {
